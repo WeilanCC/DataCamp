@@ -6,4 +6,5 @@ class FeatureExtractor():
         pass
 
     def transform(self, X_df):
+        X_df = X_df.drop(['nameDest','nameOrig','type'],axis = 1)
         return X_df.values

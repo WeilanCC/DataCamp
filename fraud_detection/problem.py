@@ -4,8 +4,8 @@ import pandas as pd
 import rampwf as rw
 from sklearn.model_selection import StratifiedShuffleSplit
 
-problem_title = 'Kaggle Porto-Seguro safe driver prediction'
-_target_column_name = 'target'
+problem_title = 'Fraud detection'
+_target_column_name = 'isFraud'
 _prediction_label_names = [0, 1]
 # A type (class) which will be used to create wrapper objects for y_pred
 Predictions = rw.prediction_types.make_multiclass(
@@ -13,12 +13,31 @@ Predictions = rw.prediction_types.make_multiclass(
 # An object implementing the workflow
 workflow = rw.workflows.FeatureExtractorClassifier()
 
+
+from rampwf.score_types.classifier_base import ClassifierBaseScoreType
+from sklearn.metrics import cohen_kappa_score
+
+class Kappa(ClassifierBaseScoreType):
+    is_lower_the_better = False
+    minimum = -1.0
+    maximum = 1.0
+
+    def __init__(self, name='Kappa', precision=2):
+        self.name = name
+        self.precision = precision
+
+    def __call__(self, y_true_label_index, y_pred_label_index):
+        score = cohen_kappa_score(y_true_label_index, y_pred_label_index)
+        return score
+
 score_types = [
-    rw.score_types.NormalizedGini(name='ngini', precision=3),
+    Kappa(name='Kappa', precision=3),
     rw.score_types.ROCAUC(name='auc', precision=3),
     rw.score_types.Accuracy(name='acc', precision=3),
-    rw.score_types.NegativeLogLikelihood(name='nll', precision=3),
+
 ]
+
+
 
 
 def get_cv(X, y):
@@ -60,7 +79,7 @@ def save_submission(y_pred, data_path='.', output_path='.', suffix='test'):
             data_path, 'kaggle_data', 'sample_submission.csv'))
     df = pd.DataFrame()
     df['id'] = sample_df['id']
-    df['target'] = y_pred[:, 1]
+    df['isFraud'] = y_pred[:, 1]
     output_f_name = os.path.join(
         output_path, 'submission_{}.csv'.format(suffix))
     df.to_csv(output_f_name, index=False)

@@ -3,6 +3,9 @@ import numpy as np
 import pandas as pd
 import rampwf as rw
 from sklearn.model_selection import StratifiedShuffleSplit
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 
 problem_title = 'Fraud detection'
 _target_column_name = 'isFraud'
@@ -16,7 +19,6 @@ workflow = rw.workflows.FeatureExtractorClassifier()
 
 from rampwf.score_types.classifier_base import ClassifierBaseScoreType
 from sklearn.metrics import cohen_kappa_score
-
 class Kappa(ClassifierBaseScoreType):
     is_lower_the_better = False
     minimum = -1.0
@@ -30,14 +32,26 @@ class Kappa(ClassifierBaseScoreType):
         score = cohen_kappa_score(y_true_label_index, y_pred_label_index)
         return score
 
+from sklearn.metrics import matthews_corrcoef
+class Matthews_corrcoef(ClassifierBaseScoreType):
+    is_lower_the_better = False
+    minimum = -1.0
+    maximum = 1.0
+
+    def __init__(self, name='Matthews', precision=2):
+        self.name = name
+        self.precision = precision
+
+    def __call__(self, y_true_label_index, y_pred_label_index):
+        score = matthews_corrcoef(y_true_label_index, y_pred_label_index)
+        return score
+
 score_types = [
-    Kappa(name='Kappa', precision=3),
-    rw.score_types.ROCAUC(name='auc', precision=3),
+    Kappa(name='kappa', precision=3),
+    Matthews_corrcoef(name='matthews', precision=3),
+    rw.score_types.ROCAUC(name='roc_auc', precision=3),
     rw.score_types.Accuracy(name='acc', precision=3),
-
 ]
-
-
 
 
 def get_cv(X, y):

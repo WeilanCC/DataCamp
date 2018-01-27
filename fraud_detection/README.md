@@ -1,6 +1,6 @@
 # RAMP starting kit on the Fraud detection
 
-Authors: Anderson_Carlos_Ferreira_da_Silva, Miaobing CHEN, Pawel_Guzewicz
+Authors: Anderson Carlos Ferreira da Silva, Miaobing CHEN, Pawel Guzewicz
 
 
 ### Quick start

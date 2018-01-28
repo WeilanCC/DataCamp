@@ -59,7 +59,7 @@ def get_cv(X, y):
     return cv.split(X, y)
 
 
-def get_train_data(path='.'):
+def _read_data(path, f_name):
     test = os.getenv('RAMP_TEST_MODE', 0)
     if test:
         data = pd.read_csv(os.path.join(path, 'data', 'train.csv'))
@@ -70,7 +70,17 @@ def get_train_data(path='.'):
     return X_df, y_array
 
 
+def get_train_data(path='.'):
+    f_name = 'train.csv'
+    return _read_data(path, f_name)
+
+
 def get_test_data(path='.'):
+    f_name = 'test.csv'
+    return _read_data(path, f_name)
+
+
+def AAAget_test_data(path='.'):
     test = os.getenv('RAMP_TEST_MODE', 0)
     if test:
         X_df = pd.read_csv(os.path.join(path, 'data', 'test.csv'))

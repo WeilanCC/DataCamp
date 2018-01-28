@@ -4,7 +4,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 class Classifier(BaseEstimator):
     def __init__(self):
-        self.clf = RandomForestClassifier(n_estimators=100, max_leaf_nodes=10, random_state=125)
+        self.clf = RandomForestClassifier(n_estimators=128, random_state=125)
 
     def fit(self, X, y):
         self.clf.fit(X, y)

@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn import preprocessing
 
+
 class FeatureExtractor():
     def __init__(self):
         self.le = preprocessing.LabelEncoder()

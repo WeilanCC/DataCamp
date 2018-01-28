@@ -1,7 +1,4 @@
 *~
-data/*
-kaggle_data/*
-submissions/__pycache__
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,6 +1,6 @@
 # RAMP starting kit on the Fraud detection
 
-Authors: Anderson Carlos Ferreira da Silva, Miaobing CHEN, Pawel Guzewicz
+Authors: Miaobing Chen, Anderson Carlos Ferreira da Silva, Pawel Guzewicz
 
 
 ### Quick start
@@ -23,39 +23,49 @@ Second, install this kit
 ```
 git clone https://github.com/ramp-kits/---
 ```
-This will create the following arborescence
+This will create the following tree structure
 ```
 fraud_detection/
 ├── data
 │   ├── sample_submission.csv
 │   ├── test.csv
 │   └── train.csv
-├── submissions
-│   ├── starting_kit
-│   │   ├── classifier.py
-│   │   └── feature_extractor.py
-├── README.md
+├── data_preparation.ipynb
 ├── fraud_detection_starting_kit.ipynb
-├── mock_data.py
+├── kaggle_data
+│   └── README.md
+├── prepare_data.py
 ├── problem.py
-└── requirements.txt
+├── README.md
+├── requirements.txt
+└── submissions
+    └── starting_kit
+        ├── classifier.py
+        └── feature_extractor.py
 ```
 Execute
 ```
 ramp_test_submission --quick-test
 ```
-to test `submissions/starting_kit/feature_extractor.py` and `submissions/starting_kit/classifier.py` against the mock data in `data/`. If you want to test the starting kit on the official Kaggle data, sign up to the [Kaggle challenge](https://www.kaggle.com/ntnu-testimon/paysim1), download, rename and place it in `kaggle_data/`. 
+to test `submissions/starting_kit/feature_extractor.py` and `submissions/starting_kit/classifier.py` against the mock data in `data/`.
+
+Read fraud_detection/kaggle_data/README.md and download the Kaggle dataset
 ```
 fraud_detection/
 ...
 ├── kaggle_data
-│   ├── fraud_detection.csv
-└── 
+│   └── fraud_detection.csv
+└── ...
 ```
 Once the data is in place, execute
+```
+python prepare_data.py
+```
+or run [data preparation notebook](data_preparation.ipynb)
+and afterwards check
 ```
 ramp_test_submission
 ```
 If it runs and print training and test errors on each fold, then your setup is complete.
 
-Please refer to the corresponding sections in the [notebook](fraud_detection_starting_kit.ipynb) for more information about submitting to RAMP.
+Please refer to the corresponding sections in the [starting kit notebook](fraud_detection_starting_kit.ipynb) for more information about submitting to RAMP.
